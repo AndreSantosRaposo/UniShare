@@ -3,6 +3,8 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const BadRequestError = require('../errors/bad-request');
+const UnauthenticatedError = require('../errors/unauthenticated');
 
 //Function for user to create an account
 async function register(req,res){
@@ -30,4 +32,25 @@ async function confirmAccount(req,res){
     //Fazer o redirect para a pagina le login ou assim
 }
 
-module.exports = {register,confirmAccount};
+async function login(req,res){
+    const {email,password} = req.body;
+    if(!email || !password){
+        throw new BadRequestError('Please provide email and password');
+    }
+    const user=  await User.findOne({email});
+    if(!user){
+        throw new UnauthenticatedError('Invalid credentials');
+    }
+    if(!user.confirmed){
+        throw new UnauthenticatedError('Invalid Credentials');
+    }
+    const correctPass = await user.comparePassword(password);
+    if(!correctPass){
+        throw new UnauthenticatedError('Invalid Credentials');
+    }
+    const token = user.createJWT();
+    console.log(token);
+    res.json({nome:user.username,token});
+}
+
+module.exports = {register,confirmAccount,login};

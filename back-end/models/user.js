@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
@@ -41,13 +42,14 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+
 //Its a function to send the confirmation email to confirm account
 UserSchema.post('save', async function(){
     try{
         const EMAIL_SECRET = process.env.EMAIL_SECRET;
         const email_token = jwt.sign({id:this._id},EMAIL_SECRET,{expiresIn:'1d'});
-        const url = `${process.env.BASE_URL}/confirmation/${email_token}`;
-
+        const url = `${process.env.BASE_URL}/api/v1/auth/confirmation/${email_token}`;
+        console.log(url);
         console.log(process.env.EMAIL_ADRESS);
         console.log(process.env.EMAIL_PASSWORD);
         let transporter = nodemailer.createTransport({
@@ -64,12 +66,14 @@ UserSchema.post('save', async function(){
             }
         });
         // Define and send message inside transporter.sendEmail() and await info about send from promise:
+        //MUDAR ESTA PARTE DO HTML DO EMAIL NÃO ESTÁ MUITO BEM
         let info ={
             from: '"UNISHARE" <andresantosraposo@gmail.com>',
             to: this.email,
             subject: "Confirm account",
             html: `
-            <h1>Please click the link to confirm your account <a href="${url}">Verify Email</a></h1>
+                <h1>Please click the link to confirm your account</h1>
+                <a href="${url}" target="_blank" style="color: blue; text-decoration: underline; course:pointer;">${url}</a>
             `,
         };
         await transporter.sendMail(info);
@@ -78,4 +82,13 @@ UserSchema.post('save', async function(){
     }
 })
 
+UserSchema.methods.createJWT = function(){
+    return jwt.sign({userId:this._id,name:this.firstName},process.env.TOKEN_SECRET,{expiresIn:process.env.JWT_LIFETIME}); //É aqui que se cria payload
+}
+
+//Comparar as passwords
+UserSchema.methods.comparePassword = async function(candidatePass){
+    const isMatch = await bcrypt.compare(candidatePass, this.password);
+    return isMatch;
+}
 module.exports = mongoose.model('User',UserSchema);
