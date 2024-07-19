@@ -5,7 +5,7 @@ require('express-async-errors'); //Lidar com os erros autonomamente
 
 //Routers
 const authRouter = require('./routes/auth');
-
+const fileRouter = require('./routes/files');
 //Connect to DB
 const connectDb = require('./db/connectDb');
 
@@ -17,7 +17,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 
 //Routes
 app.use('/api/v1/auth',authRouter);
-
+app.use('/api/v1/files',fileRouter);
 
 async function start(){
     try{

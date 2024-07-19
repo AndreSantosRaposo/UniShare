@@ -24,7 +24,7 @@ async function confirmAccount(req,res){
     try{
         const payload = jwt.verify(req.params.token,process.env.EMAIL_SECRET)
         const id = payload.id;
-        await User.findOneAndUpdate({confirmed:false,_id:id},{confirmed:true},{new:true,runValidators:true})
+        await User.findOneAndUpdate({confirmed:false,_id:id},{confirmed:true,$unset: { createdAt: "" } },{new:true,runValidators:true}) //Retirar a data de validade
     }catch(err){
         console.log(err);
     }

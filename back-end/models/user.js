@@ -39,6 +39,11 @@ const UserSchema = new mongoose.Schema({
     confirmed:{
         type:Boolean,
         default:false,
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now,
+        index:{expires:process.env.CONFIRMATION_LIFETIME}, //Se conta não for confirmada dentreo de 1 dia vai apagar user
     }
 })
 
@@ -47,7 +52,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.post('save', async function(){
     try{
         const EMAIL_SECRET = process.env.EMAIL_SECRET;
-        const email_token = jwt.sign({id:this._id},EMAIL_SECRET,{expiresIn:'1d'});
+        const email_token = jwt.sign({id:this._id},EMAIL_SECRET,{expiresIn:process.env.CONFIRMATION_LIFETIME});
         const url = `${process.env.BASE_URL}/api/v1/auth/confirmation/${email_token}`;
         console.log(url);
         console.log(process.env.EMAIL_ADRESS);
@@ -83,7 +88,7 @@ UserSchema.post('save', async function(){
 })
 
 UserSchema.methods.createJWT = function(){
-    return jwt.sign({userId:this._id,name:this.firstName},process.env.TOKEN_SECRET,{expiresIn:process.env.JWT_LIFETIME}); //É aqui que se cria payload
+    return jwt.sign({userId:this._id,name:this.firstName,role:this.role},process.env.TOKEN_SECRET,{expiresIn:process.env.JWT_LIFETIME}); //É aqui que se cria payload
 }
 
 //Comparar as passwords
