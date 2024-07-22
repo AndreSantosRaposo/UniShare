@@ -1,0 +1,9 @@
+// Import Bootstrap's functions and variables
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+// Override the primary color
+$primary: black;
+
+// Import the rest of Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap";

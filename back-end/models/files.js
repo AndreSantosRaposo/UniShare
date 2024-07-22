@@ -22,7 +22,17 @@ const FileSchema = new mongoose.Schema({
     data: {
         type: Buffer,
         required: true,
+    },
+    aproved:{
+        type:Boolean,
+        default: false
+    },
+    subject:{
+        type:String,
+        //
     }
 });
 
 module.exports = mongoose.model('File', FileSchema);
+
+

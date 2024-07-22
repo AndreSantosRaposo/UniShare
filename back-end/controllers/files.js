@@ -38,4 +38,8 @@ async function getFile(req, res) {
     res.send(file.data); // Correctly send file data
 }
 
+async function aproveFile(req,res){
+    const file = File.findOneAndUpdate()
+}
+
 module.exports = { uploadFile, getFile };
