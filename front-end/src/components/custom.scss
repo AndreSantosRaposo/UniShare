@@ -29,9 +29,76 @@ $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
 
 }
 
-.text-tertiary {
-    color: map-get($theme-colors, "tertiary") !important;
+.background-transparent{
+  background-color: rgba(map-get($custom-theme-colors,secondary ),0.35)
+}
+
+/* Login page */
+
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg-custom {
+  background: linear-gradient(45deg, #6a11cb, #2575fc); /* Example gradient */
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-custom::before,
+.bg-custom::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: move 10s infinite alternate;
+}
+
+.bg-custom::before {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+}
+
+.bg-custom::after {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+}
+
+@keyframes move {
+  from {
+      transform: translateX(0) translateY(0);
   }
+  to {
+      transform: translateX(100px) translateY(100px);
+  }
+}
 
+.login-box {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+.input-container {
+  position: relative;
+}
 
+.custom-input {
+  border: 1px solid #ced4da;
+  border-left: 5px solid ;
+  transition: border-color 0.3s, border-left-color 0.3s;
+  padding-left: 15px;
+}
+
+.custom-input:focus {
+  border-color: #80bdff;
+  border-left-color: #007bff; /* Bootstrap primary color */
+  outline: 0;
+  box-shadow: none; /* Remove Bootstrap's default box-shadow */
+}

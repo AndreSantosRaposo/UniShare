@@ -1,11 +1,12 @@
-
+import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg bg-primary">
             <div className="container w-90">
                 <a className="navbar-brand d-flex align-items-center" href="/">
-                    <img src="/public/imgs/UNISHARElogo.png" alt="Logo" height="34" />
+                    <img src="/imgs/UNISHARElogo.png" alt="Logo" height="34" />
                 </a>
                 <button
                     className="navbar-toggler"
@@ -24,11 +25,11 @@ export default function Navbar() {
                         <li className="nav-item"><a className="nav-link" href="#">Upload</a></li>
                         <li className="nav-item"><a className="nav-link" href="#">Perfil</a></li>
                         <li className="nav-item"><a className="nav-link" href="#">Contactos</a></li>
-                        <li className="nav-item d-lg-none"><a className="nav-link" href="#">Log In</a></li>
+                        <li className="nav-item d-lg-none"><a className="nav-link" href="/auth/login">Log In</a></li>
                     </ul>
                 </div>
                 <div className="d-none d-lg-flex align-items-center">
-                    <button className='btn btn-secondary text-tertiary'>Log In</button>
+                    <button className='btn btn-secondary text-tertiary'><a className="nav-link" href="/auth/login">Log In</a></button>
                 </div>
             </div>
         </nav>
