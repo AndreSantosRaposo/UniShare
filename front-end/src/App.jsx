@@ -13,6 +13,8 @@ import HomePage from './components/HomePage'
 import Login from './components/Autenticação/Login'
 import LinkRecPass from './components/Autenticação/LinkRecPass'
 import RecuperarPass from './components/Autenticação/RecuperarPasse'
+import Registar from "./components/Autenticação/Registar"
+import ConfirmAccount from './components/Autenticação/ConfirmAccount'
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
           <Route element={<Login/>} path="login"/>
           <Route element={<LinkRecPass/>} path="linkrecpass"/>
           <Route element={<RecuperarPass/>} path="recuperarpass"/>
+          <Route element={<Registar/>} path="registar"/>
+          <Route element={<ConfirmAccount/>} path="confirmar"/>
         </Route>
       </Routes>
     </BrowserRouter>

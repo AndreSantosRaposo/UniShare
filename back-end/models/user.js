@@ -54,9 +54,6 @@ UserSchema.post('save', async function(){
         const EMAIL_SECRET = process.env.EMAIL_SECRET;
         const email_token = jwt.sign({id:this._id},EMAIL_SECRET,{expiresIn:process.env.CONFIRMATION_LIFETIME});
         const url = `${process.env.BASE_URL}/api/v1/auth/confirmation/${email_token}`;
-        console.log(url);
-        console.log(process.env.EMAIL_ADRESS);
-        console.log(process.env.EMAIL_PASSWORD);
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
             port: 465, // Port for SMTP (usually 465)
@@ -64,7 +61,6 @@ UserSchema.post('save', async function(){
             auth: {
                 user: process.env.EMAIL_ADRESS, // Your email address
                 pass: process.env.EMAIL_PASSWORD, // Password (for gmail, your app password)
-                // ⚠️ For better security, use environment variables set on the server for these values when deploying
             },
             tls: {
                 rejectUnauthorized: false  // Disables certificate validation

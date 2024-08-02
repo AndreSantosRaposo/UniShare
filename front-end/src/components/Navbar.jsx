@@ -20,7 +20,7 @@ export default function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-                    <ul className="navbar-nav mb-lg-0 fs-5">
+                    <ul className="navbar-nav mb-lg-0 fs-5 ">
                         <li className="nav-item"><a className="nav-link" href="#">Disciplinas</a></li>
                         <li className="nav-item"><a className="nav-link" href="#">Upload</a></li>
                         <li className="nav-item"><a className="nav-link" href="#">Perfil</a></li>

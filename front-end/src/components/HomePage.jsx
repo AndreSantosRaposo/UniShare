@@ -4,7 +4,7 @@ export default function HomePage() {
             <div className="position-relative">
                 <img src="/imgs/homepage-img-small.png" className="img-fluid w-100" alt="Homepage" />
                 <div className=" overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white background-transparent ">
-                    <h1>Bem vindos ao <strong>UNISHARE</strong></h1>
+                    <h1>Bem-vindos ao <strong>UNISHARE</strong></h1>
                     <p className="h5">A tua plataforma de partilha de material!</p>
                 </div>
             </div>

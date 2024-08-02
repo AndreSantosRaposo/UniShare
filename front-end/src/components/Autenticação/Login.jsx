@@ -1,47 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Ensure the Bootstrap Icons are imported
 import '../../components/custom.scss'; // Ensure the path is correct
 
 export default function Login() {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    useEffect(() => {
-        const form = document.querySelectorAll('.needs-validation');
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        const form = event.target;
 
-        Array.from(form).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+        if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+        }
 
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, []);
+        const formData = new FormData(form);
+        const data = {
+            email: formData.get('email'),
+            password: formData.get('password')
+        };
+        try {
+            const response = await fetch('http://localhost:3000/api/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                // Redirect to home page on successful login
+                window.location.href = 'http://localhost:5173/';
+            } else {
+                const result = await response.json();
+                setErrorMessage(result.message || 'Invalid credentials');
+            }
+        } catch (error) {
+            console.log(error);
+            setErrorMessage('Something went wrong, please try again later.');
+        }
+    };
 
     return (
         <>
             <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-custom">
-                <form className="needs-validation" noValidate>
+                <form className="needs-validation" noValidate onSubmit={handleFormSubmit}>
                     <div className="login-box p-5">
                         <h1 className="mb-4 text-center">Faz o teu login</h1>
+                        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                         <div className="mb-3">
-                            <h3>Email address</h3>
-                            <input className="form-control custom-input" type="email" placeholder="name@mail.com" required />
+                            <label className='h5'>Email address</label>
+                            <input className="form-control custom-input" type="email" placeholder="name@mail.com" name="email" required />
                             <div className="invalid-feedback"><p>Email inválido</p></div>
                         </div>
                         <div className="mb-1">
-                            <h3>Password</h3>
+                            <label className='h5'>Password</label>
                             <div className="input-group position-relative">
                                 <input
                                     className="form-control custom-input"
                                     type={passwordVisible ? 'text' : 'password'}
                                     placeholder="●●●●●●●●●"
+                                    name="password"
                                     required
                                 />
                                 <button
@@ -56,10 +81,10 @@ export default function Login() {
                         </div>
                         <div className="d-flex justify-content-end"><a className="link-primary" href="linkrecpass">Recuperar password</a></div>
                         <div className="d-flex justify-content-between mt-4">
-                            <button className="btn btn-primary" type="submit">Login</button>
-                            <button className="btn btn-secondary">
-                                <a className="text-white text-decoration-none" href="">Registar</a>
-                            </button>
+                            <button className="btn btn-primary text-black">
+                                    <a className="text-white text-decoration-none" href="registar">Registar</a>
+                                </button>
+                            <button className="btn btn-secondary" type="submit">Login</button>   
                         </div>
                     </div>
                 </form>
