@@ -6,7 +6,7 @@ const cors = require('cors');
 //Routers
 const authRouter = require('./routes/auth');
 const fileRouter = require('./routes/files');
-
+const cadeirasRouter = require('./routes/cadeiras');
 //Connect to DB
 const connectDb = require('./db/connectDb');
 
@@ -27,6 +27,7 @@ const errorHandlerMiddleware = require('./middleware/errorHandler');
 //Routes
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/files',fileRouter);
+app.use('/api/v1/cadeiras',cadeirasRouter);
 
 app.use(errorHandlerMiddleware);
 

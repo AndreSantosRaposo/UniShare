@@ -15,22 +15,25 @@ import LinkRecPass from './components/Autenticação/LinkRecPass'
 import RecuperarPass from './components/Autenticação/RecuperarPasse'
 import Registar from "./components/Autenticação/Registar"
 import ConfirmAccount from './components/Autenticação/ConfirmAccount'
+import DisciplinasPag from './components/Disciplinas/PageDisciplina'
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route element={<Layout/>}>
           <Route index path="" element={<HomePage/>}/>
-        </Route>
-        <Route path='/auth'>
-          <Route element={<Login/>} path="login"/>
-          <Route element={<LinkRecPass/>} path="linkrecpass"/>
-          <Route element={<RecuperarPass/>} path="recuperarpass"/>
-          <Route element={<Registar/>} path="registar"/>
-          <Route element={<ConfirmAccount/>} path="confirmar"/>
+          <Route path='/auth'>
+            <Route element={<Login/>} path="login"/>
+            <Route element={<LinkRecPass/>} path="linkrecpass"/>
+          < Route element={<RecuperarPass/>} path="recuperarpass"/>
+            <Route element={<Registar/>} path="registar"/>
+            <Route element={<ConfirmAccount/>} path="confirmar"/>
+          </Route>
+          <Route path="/cadeiras" element={<DisciplinasPag/>}>
+            <Route path=":year/:semester/:category" index/>
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
