@@ -1,4 +1,4 @@
-import DisciplinaCard from "./CardDisciplina";
+import CardDisciplina from "./CardDisciplina";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -65,12 +65,12 @@ export default function DisciplinaList() {
 
     const disciplinasElements = displayedDisciplinas.map(disciplina => (
         <div className="col-md-4" key={disciplina._id}> 
-            <DisciplinaCard name={disciplina.name} year={disciplina.year} semester={disciplina.semester} category={disciplina.category} />
+            <CardDisciplina name={disciplina.name} year={disciplina.year} semester={disciplina.semester} category={disciplina.category} />
         </div>
     ));
 
     return (
-        <main className="bg-black p-5 text-start text-white">
+        <main className="bg-dark p-5 text-start text-white">
             <h1 className="mb-3 mt-0">Disciplinas</h1>
             <div className="mb-5 container">
                 <h2 className="h3">Filtros: </h2>

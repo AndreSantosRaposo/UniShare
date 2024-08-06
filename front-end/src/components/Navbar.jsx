@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     return (
@@ -21,11 +22,11 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul className="navbar-nav mb-lg-0 fs-5 ">
-                        <li className="nav-item"><a className="nav-link" href="cadeiras">Disciplinas</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#">Upload</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#">Perfil</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#">Contactos</a></li>
-                        <li className="nav-item d-lg-none"><a className="nav-link" href="/auth/login">Log In</a></li>
+                        <li className="nav-item"><Link className="nav-link" to="/cadeiras">Disciplinas</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to="/upload">Upload</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to="#">Perfil</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to="#">Contactos</Link></li>
+                        <li className="nav-item d-lg-none"><Link className="nav-link" to="/auth/login">Log In</Link></li>
                     </ul>
                 </div>
                 <div className="d-none d-lg-flex align-items-center">

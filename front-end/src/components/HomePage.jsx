@@ -1,6 +1,6 @@
 export default function HomePage() {
     return (
-        <>
+        <main>
             <div className="position-relative">
                 <img src="/imgs/homepage-img-small.png" className="img-fluid w-100" alt="Homepage" />
                 <div className=" overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white background-transparent ">
@@ -31,6 +31,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
-        </>
+            <h1>Adicionar mais alguma cena aqui (ns o que)</h1>
+        </main>
     );
   }
