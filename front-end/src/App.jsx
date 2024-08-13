@@ -26,7 +26,7 @@ import getFiles from './loaders/getFiles'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route>
-    <Route element={<Layout/>}>
+    <Route element={<Layout/>} basename="https://github.com/AndreSantosRaposo/UniShare">
       <Route index path="" element={<HomePage/>}/>
       <Route path='/auth'>
         <Route element={<Login/>} path="login"/>
