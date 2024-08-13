@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Ensure you have Bootstrap Icons included
-
-export default function CardMaterial({ nome }) {
+import { Link } from 'react-router-dom';
+export default function CardMaterial({ nome, subject }) {
     let icon;
     switch (nome) {
         case "Materiais e resumos":
@@ -26,8 +26,8 @@ export default function CardMaterial({ nome }) {
                 </div>
                 <div>
                     <h5 className="card-title mb-1">{nome}</h5>
-                    <p className="card-text mb-2">20 disponíveis</p>
-                    <a href="#" className="btn btn-secondary">Ver mais</a>
+                    <p className="card-text mb-2">Materiais disponiveis</p>
+                    <Link to={nome} className="btn btn-secondary">Ver mais</Link>
                 </div>
             </div>
         </div>

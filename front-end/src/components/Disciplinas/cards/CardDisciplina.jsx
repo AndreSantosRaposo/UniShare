@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function DisciplinaCard({ name, year, semester, category }) {
+export default function DisciplinaCard({ name, year, semester, category, id }) {
     let image;
     switch (category) {
         case "Matemática":
@@ -28,7 +28,7 @@ export default function DisciplinaCard({ name, year, semester, category }) {
                     <h5 className="card-title">{name}</h5>
                     <p className="card-text mb-1">{year}ª Ano</p>
                     <p className="card-text mb-1">{semester}º Semestre</p>
-                    <Link to={`${name}`} className="btn btn-secondary">Ir para disciplina</Link>
+                    <Link to={`${id}`} state={{ name }} className="btn btn-secondary">Ir para disciplina</Link>
                 </div>
             </div>
         </>

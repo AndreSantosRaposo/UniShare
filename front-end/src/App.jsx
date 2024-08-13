@@ -16,12 +16,13 @@ import LinkRecPass from './components/Autenticação/LinkRecPass'
 import RecuperarPass from './components/Autenticação/RecuperarPasse'
 import Registar from "./components/Autenticação/Registar"
 import ConfirmAccount from './components/Autenticação/ConfirmAccount'
-import PageDisciplina from './components/Disciplinas/PageDisciplina'
-import PaginaMateriais from './components/Disciplinas/PaginaMateriais'
+import PageDisciplina from './components/Disciplinas/CadeiraNav'
+import CategoryNav from './components/Disciplinas/CategoryNav'
 import Upload from './components/Upload'
-
+import MaterialNav from './components/Disciplinas/MaterialNav'
 //Loaders
 import getDisciplinas from './loaders/getDisciplinasNomes'
+import getFiles from './loaders/getFiles'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route>
@@ -36,8 +37,19 @@ const router = createBrowserRouter(createRoutesFromElements(
       </Route>
       <Route path="/cadeiras">
         <Route index element={<PageDisciplina/>} />
-        <Route path=":cadeiraNome" element={<PaginaMateriais/>}/>
-      </Route>
+        <Route path=":cadeiraId" element={<CategoryNav/>}/>
+
+        <Route
+            path=":cadeiraId/:category"
+            element={<MaterialNav />}
+            loader={({ params, request }) => {
+              const url = new URL(request.url);
+              const page = url.searchParams.get('page') || 1; // Extract the page parameter
+              return getFiles(params.cadeiraId, params.category, page);
+            }}
+          />
+
+        </Route>
       <Route path="upload" element={<Upload/>} loader={getDisciplinas}/>
     </Route>
   </Route>

@@ -23,13 +23,31 @@ const FileSchema = new mongoose.Schema({
         type: Buffer,
         required: true,
     },
-    aproved:{
-        type:Boolean,
-        default: false
+    fileCategory:{
+        type:String,
+        required:true,
+    },
+    title:{
+        type:String,
+        required:true,
+        maxLength: 50,
+    },
+    description:{
+        type:String,
+        required:true,
+        maxLength:300,
     },
     subject:{
         type:String,
-        //
+        required:true,
+    },
+    aproved:{
+        type:Boolean,
+        default:false,
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now,
     }
 });
 

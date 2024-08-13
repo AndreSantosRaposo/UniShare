@@ -32,7 +32,6 @@ export default function Upload() {
 
     useEffect(() => {
         const form = document.querySelector('.needs-validation');
-
         form.addEventListener(
             "submit",
             (event) => {
@@ -46,15 +45,53 @@ export default function Upload() {
         );
     }, []);
 
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        const form = event.target;
+
+        if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+        }
+
+        const formData = new FormData(form);
+        const file = formData.get('file');
+
+        if (!file) {
+            setFileError("Please select a file before submitting.");
+            return;
+        }
+
+        try {
+            // Sending the data along with the file as a FormData object to maintain the ability to send files
+            const response = await fetch('http://localhost:3000/api/v1/files/upload', {
+                method: 'POST',
+                body: formData, // Send FormData directly
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload file.');
+            }
+
+            const result = await response.json();
+            alert('File uploaded successfully!');
+            console.log(result);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file: ' + error.message);
+        }
+    };
+
     return (
         <main className="w-50 mx-auto">
             <h1 className="pt-3">Fazer upload de ficheiros</h1>
-            <form className="needs-validation" noValidate>
+            <form className="needs-validation" noValidate onSubmit={handleFormSubmit}>
                 <div className="mb-2 mt-4">
                     <label htmlFor="disciplinaSelect">
                         <strong>Escolha uma disciplina</strong>
                     </label>
-                    <select id="disciplinaSelect" className="form-select" aria-label="Default select menu" required>
+                    <select id="disciplinaSelect" className="form-select" name="subjects" aria-label="Default select menu" required>
                         <option value="">Abra o menu para selecionar</option>
                         {opcoes}
                     </select>
@@ -66,19 +103,19 @@ export default function Upload() {
                         <strong>Escolha a categoria</strong>
                     </label>
                     <div className="form-check my-2 p-3 text-start border border-2 rounded d-flex align-items-center">
-                        <input className="form-check-input mx-2" type="radio" name="filetype" id="teoria" required />
+                        <input className="form-check-input mx-2" type="radio" name="filetype" id="teoria" value="teoria" required />
                         <label className="form-check-label fs-5" htmlFor="teoria">
                             Materiais e resumos
                         </label>
                     </div>
                     <div className="form-check my-2 p-3 text-start border border-2 rounded d-flex align-items-center">
-                        <input className="form-check-input mx-2" type="radio" name="filetype" id="exames" required />
+                        <input className="form-check-input mx-2" type="radio" name="filetype" id="exames" value="exames" required />
                         <label className="form-check-label fs-5" htmlFor="exames">
                             Exames anteriores
                         </label>
                     </div>
                     <div className="form-check my-2 p-3 text-start border border-2 rounded d-flex align-items-center">
-                        <input className="form-check-input mx-2" type="radio" name="filetype" id="sheets" required />
+                        <input className="form-check-input mx-2" type="radio" name="filetype" id="sheets" value="sheets" required />
                         <label className="form-check-label fs-5" htmlFor="sheets">
                             Folhas de exercicios
                         </label>
@@ -93,6 +130,7 @@ export default function Upload() {
                         placeholder="Título"
                         className="mt-2 fs-5 border border-2 rounded p-2"
                         id="titulo"
+                        name="title"
                         maxLength={"50"}
                         required
                     />
@@ -106,7 +144,7 @@ export default function Upload() {
                         placeholder="Descrição"
                         className="mt-2 fs-5 border border-2 rounded p-2 h-25"
                         id="descrição"
-                        name="descrição"
+                        name="description"
                         maxLength={"300"}
                         required
                         style={{ resize: "none" }}
@@ -121,6 +159,7 @@ export default function Upload() {
                         <input
                             type="file"
                             id="fileInput"
+                            name="file"
                             style={{ display: "none" }}
                             onChange={handleFileChange}
                             accept=".pdf, .png, .jpg"
@@ -137,7 +176,7 @@ export default function Upload() {
                         <p>{fileName ? fileName : "Nenhum ficheiro"}</p>
                     </div>
                 </div>
-                <button className="btn btn-secondary w-100 mb-5">Enviar</button>
+                <button type="submit" className="btn btn-secondary w-100 mb-5">Enviar</button>
             </form>
         </main>
     );

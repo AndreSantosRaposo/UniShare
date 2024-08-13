@@ -12,17 +12,66 @@ async function uploadFile(req, res) {
         filename: req.file.originalname,
         contentType: req.file.mimetype,
         size: req.file.size,
-        data: req.file.buffer
+        data: req.file.buffer,
+        fileCategory: req.body.filetype,
+        title: req.body.title,
+        description:req.body.description,
+        subject:req.body.subjects
     }
     const result = await File.create(fileData);
     res.json({ result });
 }
 
+async function getAllFilesInfo(req, res) {
+    const { cadeiraId, category, sortOrder } = req.query;
+    const filterCategory = getFilterCategory(category);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 7;
+  
+    const sort = sortOrder === 'crescente' ? 1 : -1; // Ensure correct sorting logic
+  
+    try {
+      const result = File.find({ subject: cadeiraId, fileCategory: filterCategory })
+        .select('title _id description createdAt')
+        .sort({ createdAt: sort }) // Sorting by date
+        .skip((page - 1) * limit)
+        .limit(limit);
+  
+      const files = await result;
+      const totalFiles = await File.countDocuments({ subject: cadeiraId, fileCategory: filterCategory });
+      const totalPages = Math.ceil(totalFiles / limit);
+  
+      res.status(200).json({ files, totalPages, currentPage: page });
+    } catch (error) {
+      console.error("Error fetching files:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  
+  function getFilterCategory(category) {
+    switch (category) {
+      case 'Materiais e resumos':
+        return 'teoria';
+      case 'Exames anteriores':
+        return 'exames';
+      case 'Fichas':
+        return 'sheets';
+      default:
+        return '';
+    }
+  }
+  
+  
+  
+  
+  
+
+
 async function getFile(req, res) {
     const fileId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(fileId)) {
-        return res.status(400).send('Invalid file ID');
+        throw new BadRequestError('Invalid file ID')
     }
 
     const file = await File.findById(fileId); // Ensure correct model reference
@@ -35,11 +84,7 @@ async function getFile(req, res) {
         'Content-Disposition': `attachment; filename=${file.filename}`
     });
     
-    res.send(file.data); // Correctly send file data
+    res.send(file.data);
 }
 
-//async function aproveFile(req,res){
-//    const file = File.findOneAndUpdate()
-//}
-
-module.exports = { uploadFile, getFile };
+module.exports = { uploadFile, getFile,getAllFilesInfo };
