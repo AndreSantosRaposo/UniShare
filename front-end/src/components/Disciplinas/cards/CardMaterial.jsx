@@ -1,38 +1,31 @@
+// CardMaterial Component
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-// Defina o elemento principal do seu aplicativo
-Modal.setAppElement('#root'); // Assumindo que o root é o id do seu elemento root do React
+Modal.setAppElement('#root'); // Set the app root for accessibility (para poder ver pdfs)
+
 
 export default function CardMaterial({ name, description, createdDate, id }) {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewData, setPreviewData] = useState(null);
-    const [fileType, setFileType] = useState("");
 
     // Function to handle file preview
     const handlePreview = async () => {
-        try {
-            const response = await fetch(`http://localhost:3000/api/v1/files/view/${id}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch preview');
-            }
-
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            setFileType(response.headers.get("Content-Type")); // Obter o tipo de conteúdo do arquivo
-            setPreviewData(url);
-            setIsPreviewOpen(true);
-        } catch (error) {
-            console.error('Error fetching preview:', error);
+        const response = await fetch(`http://localhost:3000/api/v1/files/view/${id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch preview');
         }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        setPreviewData(url);
+        setIsPreviewOpen(true);
     };
 
     // Function to close the modal
     const handleCloseModal = () => {
         setIsPreviewOpen(false);
-        URL.revokeObjectURL(previewData); // Limpar o objeto URL
+        URL.revokeObjectURL(previewData); // Clean up the object URL
         setPreviewData(null);
-        setFileType(""); // Resetar o tipo do arquivo
     };
 
     const date = createdDate.split('T')[0];
@@ -52,16 +45,7 @@ export default function CardMaterial({ name, description, createdDate, id }) {
                 <h2>{name}</h2>
                 {previewData && (
                     <div style={{ textAlign: 'center' }}>
-                        {/* Renderiza o arquivo de acordo com o tipo */}
-                        {fileType === "application/pdf" ? (
-                            <iframe
-                                src={previewData}
-                                title={name}
-                                style={{ width: '100%', height: '500px' }}
-                            />
-                        ) : (
-                            <img src={previewData} alt={name} style={{ maxWidth: '100%' }} />
-                        )}
+                        <img src={previewData} alt={name} style={{ maxWidth: '100%' }} />
                     </div>
                 )}
                 <button onClick={handleCloseModal} className="btn btn-primary mt-3">

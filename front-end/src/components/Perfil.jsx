@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import DisciplinaFavorita from "./Disciplinas/cards/CardDisciplinaFavorita";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import getDisciplinasComInfo from "../loaders/getFavouritesInfo";
+import CardMaterial from "./Disciplinas/cards/CardMaterial";
 
 export default function Perfil() {
     const navigate = useNavigate();
     const loaderData = useLoaderData();
-    // Inicializa cadeirasData com os dados do loader
-    const [cadeirasData, setCadeirasData] = useState(loaderData.data|| { cadeiras: [], totalPages: 1 });
+    const [view, setView] = useState("favorites"); // State to toggle between views
+    const [cadeirasData, setCadeirasData] = useState(loaderData.data || { cadeiras: [], totalPages: 1 });
     const { cadeiras = [], totalPages = 1 } = cadeirasData;
-    const [userData,setUserData] = useState(loaderData.dataUser);
-    console.log(userData);
+    const [userData, setUserData] = useState(loaderData.dataUser);
+    const [publishedFiles, setPublishedFiles] = useState([]); // State to store published files
     const urlParams = new URLSearchParams(window.location.search);
     const currentPage = Number(urlParams.get('page')) || 1;
 
@@ -20,8 +21,27 @@ export default function Perfil() {
             setCadeirasData(data.data);
         };
 
-        fetchCadeiras();
-    }, [currentPage]);
+        if (view === "favorites") {
+            fetchCadeiras();
+        }
+    }, [currentPage, view]);
+
+    // Fetch published files when "Ficheiros Publicados" is selected
+    useEffect(() => {
+        async function fetchPublishedFiles(){
+            const token = localStorage.getItem('token');
+            const response = await fetch("http://localhost:3000/api/v1/files/postedFiles",{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+            const result = await response.json();
+            setPublishedFiles(result.files); 
+        };
+        if (view === "files") {
+            fetchPublishedFiles();
+        }
+    }, [view]);
 
     const handlePageChange = (page) => {
         if (page > 0 && page <= totalPages) {
@@ -29,7 +49,6 @@ export default function Perfil() {
         }
     };
 
-    // Criar itens de paginação
     const paginationItems = [];
     for (let i = 1; i <= totalPages; i++) {
         paginationItems.push(
@@ -40,6 +59,7 @@ export default function Perfil() {
             </li>
         );
     }
+
     const displayCadeiras = cadeiras.length > 0 ? (
         cadeiras.map(cadeira => (
             <DisciplinaFavorita key={cadeira._id} name={cadeira.name} year={cadeira.year} semester={cadeira.semester} id={cadeira._id} />
@@ -48,8 +68,13 @@ export default function Perfil() {
         <p>Nenhuma cadeira favorita encontrada.</p>
     );
 
-
-    
+    const displayFiles = publishedFiles.length > 0 ? (
+        publishedFiles.map(file => (
+            <CardMaterial key={file._id} name={file.name} description={file.description} createdDate={file.createdAt} id={file._id} />
+        ))
+    ) : (
+        <p>Nenhum ficheiro publicado encontrado.</p>
+    );
 
     return (
         <main>
@@ -62,31 +87,54 @@ export default function Perfil() {
                 </ul>
                 <button className="btn btn-secondary">Log out</button>
             </section>
-            <div className="btn-group mt-5  " role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off" checked />
-                <label className="btn btn-outline-secondary" htmlFor="btnradio1">Disciplinas favoritas</label>
+            <div className="btn-group mt-5" role="group" aria-label="Basic radio toggle button group">
+                <input
+                    type="radio"
+                    className="btn-check"
+                    name="btnradio"
+                    id="btnradio1"
+                    autoComplete="off"
+                    checked={view === "favorites"}
+                    onChange={() => setView("favorites")}
+                />
+                <label className="btn btn-outline-secondary" htmlFor="btnradio1">
+                    Disciplinas favoritas
+                </label>
 
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" />
-                <label className="btn btn-outline-secondary" htmlFor="btnradio2">Ficheiros Publicados</label>
+                <input
+                    type="radio"
+                    className="btn-check"
+                    name="btnradio"
+                    id="btnradio2"
+                    autoComplete="off"
+                    checked={view === "files"}
+                    onChange={() => setView("files")}
+                />
+                <label className="btn btn-outline-secondary" htmlFor="btnradio2">
+                    Ficheiros Publicados
+                </label>
             </div>
 
             <div className="container w-50 mx-auto mt-4 pb-2 d-block">
                 <div className="row gx-2 gy-2">
-                    {displayCadeiras}
+                    {view === "favorites" ? displayCadeiras : displayFiles}
                 </div>
-                <ul className="pagination justify-content-center mt-3">
-                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <button className="page-link bg-secondary text-black" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                            Previous
-                        </button>
-                    </li>
-                    {paginationItems}
-                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                        <button className="page-link bg-secondary text-black" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                            Next
-                        </button>
-                    </li>
-                </ul>
+
+                {view === "favorites" && (
+                    <ul className="pagination justify-content-center mt-3">
+                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                            <button className="page-link bg-secondary text-black" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                                Previous
+                            </button>
+                        </li>
+                        {paginationItems}
+                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                            <button className="page-link bg-secondary text-black" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                )}
             </div>
         </main>
     );

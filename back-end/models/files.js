@@ -45,7 +45,7 @@ const FileSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
-    criador:{
+    creator:{
         type:String,
     },
     createdAt:{

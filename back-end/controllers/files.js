@@ -18,7 +18,7 @@ async function uploadFile(req, res) {
         title: req.body.title,
         description:req.body.description,
         subject:req.body.subjects,
-        criador:req.user.userId,
+        creator:req.user.userId,
     }
     const result = await File.create(fileData);
     res.json({ result });
@@ -79,4 +79,8 @@ async function getFile(req, res) {
     res.send(file.data);
 }
 
-module.exports = { uploadFile, getFile,getAllFilesInfo };
+async function getFilesById(req,res){
+  const files = await File.find({criador:req.user.userId})
+  res.json({files});
+}
+module.exports = { uploadFile, getFile,getAllFilesInfo ,getFilesById};
