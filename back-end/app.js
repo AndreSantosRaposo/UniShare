@@ -7,6 +7,7 @@ const cors = require('cors');
 const authRouter = require('./routes/auth');
 const fileRouter = require('./routes/files');
 const cadeirasRouter = require('./routes/cadeiras');
+const usersRouter = require('./routes/users');
 //Connect to DB
 const connectDb = require('./db/connectDb');
 
@@ -16,7 +17,7 @@ const port = process.env.PORT || 3000;
 //Cors
 app.use(cors({
     origin: 'http://localhost:5173',  // Replace with your frontend origin
-    methods: ['GET', 'POST'],  // Specify allowed methods
+    methods: ['GET', 'POST',"PUT"],  // Specify allowed methods
     credentials: true
 }));
 
@@ -28,6 +29,7 @@ const errorHandlerMiddleware = require('./middleware/errorHandler');
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/files',fileRouter);
 app.use('/api/v1/cadeiras',cadeirasRouter);
+app.use('/api/v1/users',usersRouter);
 
 app.use(errorHandlerMiddleware);
 

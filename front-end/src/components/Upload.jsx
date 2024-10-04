@@ -63,24 +63,24 @@ export default function Upload() {
             return;
         }
 
-        try {
-            // Sending the data along with the file as a FormData object to maintain the ability to send files
-            const response = await fetch('http://localhost:3000/api/v1/files/upload', {
-                method: 'POST',
-                body: formData, // Send FormData directly
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to upload file.');
+        // Sending the data along with the file as a FormData object to maintain the ability to send files
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/v1/files/upload', {
+            method: 'POST',
+            body: formData, // Send FormData directly
+            headers: {
+                'Authorization': `Bearer ${token}` // Inclua o token JWT aqui
             }
+        });
 
-            const result = await response.json();
-            alert('File uploaded successfully!');
-            console.log(result);
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            alert('Error uploading file: ' + error.message);
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Failed to upload file.');
         }
+
+        const result = await response.json();
+        alert('File uploaded successfully!');
+        console.log(result);
     };
 
     return (

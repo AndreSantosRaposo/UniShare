@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:'student'
     },
+    favourites: {
+        type: [String], // An array of ObjectIds referencing Class documents
+        default: [], // Defaults to an empty array
+    },
     confirmed:{
         type:Boolean,
         default:false,

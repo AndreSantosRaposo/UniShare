@@ -24,7 +24,7 @@ export default function Navbar() {
                     <ul className="navbar-nav mb-lg-0 fs-5 ">
                         <li className="nav-item"><Link className="nav-link" to="/cadeiras">Disciplinas</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="/upload">Upload</Link></li>
-                        <li className="nav-item"><Link className="nav-link" to="#">Perfil</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to="/profile">Perfil</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="#">Contactos</Link></li>
                         <li className="nav-item d-lg-none"><Link className="nav-link" to="/auth/login">Log In</Link></li>
                     </ul>

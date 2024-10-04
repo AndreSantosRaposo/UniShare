@@ -45,6 +45,9 @@ const FileSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
+    criador:{
+        type:String,
+    },
     createdAt:{
         type:Date,
         default:Date.now,

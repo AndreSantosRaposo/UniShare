@@ -8,6 +8,7 @@ async function uploadFile(req, res) {
     if (!req.file) {
         throw new BadRequestError('No file uploaded');
     }
+    //console.log(req.user);
     const fileData = {
         filename: req.file.originalname,
         contentType: req.file.mimetype,
@@ -16,7 +17,8 @@ async function uploadFile(req, res) {
         fileCategory: req.body.filetype,
         title: req.body.title,
         description:req.body.description,
-        subject:req.body.subjects
+        subject:req.body.subjects,
+        criador:req.user.userId,
     }
     const result = await File.create(fileData);
     res.json({ result });
@@ -30,22 +32,17 @@ async function getAllFilesInfo(req, res) {
   
     const sort = sortOrder === 'crescente' ? 1 : -1; // Ensure correct sorting logic
   
-    try {
-      const result = File.find({ subject: cadeiraId, fileCategory: filterCategory })
-        .select('title _id description createdAt')
-        .sort({ createdAt: sort }) // Sorting by date
-        .skip((page - 1) * limit)
-        .limit(limit);
-  
-      const files = await result;
-      const totalFiles = await File.countDocuments({ subject: cadeiraId, fileCategory: filterCategory });
-      const totalPages = Math.ceil(totalFiles / limit);
+    const result = File.find({ subject: cadeiraId, fileCategory: filterCategory })
+      .select('title _id description createdAt')
+      .sort({ createdAt: sort }) // Sorting by date
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const files = await result;
+    const totalFiles = await File.countDocuments({ subject: cadeiraId, fileCategory: filterCategory });
+    const totalPages = Math.ceil(totalFiles / limit);
   
       res.status(200).json({ files, totalPages, currentPage: page });
-    } catch (error) {
-      console.error("Error fetching files:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
   }
   
   function getFilterCategory(category) {
@@ -62,11 +59,6 @@ async function getAllFilesInfo(req, res) {
   }
   
   
-  
-  
-  
-
-
 async function getFile(req, res) {
     const fileId = req.params.id;
 

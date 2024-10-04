@@ -35,7 +35,9 @@ export default function Login() {
             });
 
             if (response.ok) {
-                // Redirect to home page on successful login
+                const result = await response.json();
+                const token = result.token;
+                localStorage.setItem('token', token);
                 window.location.href = 'http://localhost:5173/';
             } else {
                 const result = await response.json();

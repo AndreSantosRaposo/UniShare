@@ -20,13 +20,17 @@ import PageDisciplina from './components/Disciplinas/CadeiraNav'
 import CategoryNav from './components/Disciplinas/CategoryNav'
 import Upload from './components/Upload'
 import MaterialNav from './components/Disciplinas/MaterialNav'
+import Profile from './components/Perfil'
+
 //Loaders
-import getDisciplinas from './loaders/getDisciplinasNomes'
+import getTodasDisciplinas from './loaders/getDisciplinasNomes'
 import getFiles from './loaders/getFiles'
+import getFavouriteID from './loaders/getFavouritesID'
+import getfavouritesInfo from './loaders/getFavouritesInfo'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route>
-    <Route element={<Layout/>} basename="https://github.com/AndreSantosRaposo/UniShare">
+    <Route element={<Layout/>} path="/">
       <Route index path="" element={<HomePage/>}/>
       <Route path='/auth'>
         <Route element={<Login/>} path="login"/>
@@ -37,7 +41,10 @@ const router = createBrowserRouter(createRoutesFromElements(
       </Route>
       <Route path="/cadeiras">
         <Route index element={<PageDisciplina/>} />
-        <Route path=":cadeiraId" element={<CategoryNav/>}/>
+        <Route path=":cadeiraId"
+          element={<CategoryNav/>}
+          loader={getFavouriteID}
+        />
 
         <Route
             path=":cadeiraId/:category"
@@ -48,9 +55,9 @@ const router = createBrowserRouter(createRoutesFromElements(
               return getFiles(params.cadeiraId, params.category, page);
             }}
           />
-
         </Route>
-      <Route path="upload" element={<Upload/>} loader={getDisciplinas}/>
+      <Route path="upload" element={<Upload/>} loader={getTodasDisciplinas}/>
+      <Route path="/profile" element={<Profile/>} loader={getfavouritesInfo}/>
     </Route>
   </Route>
 ))
