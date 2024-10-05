@@ -26,10 +26,10 @@ app.use(express.json()); // Middleware to parse JSON bodies
 const errorHandlerMiddleware = require('./middleware/errorHandler');
 
 //Routes
-app.use('/api/v1/auth',authRouter);
-app.use('/api/v1/files',fileRouter);
-app.use('/api/v1/cadeiras',cadeirasRouter);
-app.use('/api/v1/users',usersRouter);
+app.use('/auth',authRouter);
+app.use('/files',fileRouter);
+app.use('/cadeiras',cadeirasRouter);
+app.use('/users',usersRouter);
 
 app.use(errorHandlerMiddleware);
 
