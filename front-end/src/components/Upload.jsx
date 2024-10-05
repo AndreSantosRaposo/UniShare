@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
 export default function Upload() {
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') != null);
     const disciplinas = useLoaderData();
     const sortedDisciplinas = disciplinas.sort((a, b) => a.name.localeCompare(b.name));
     const opcoes = sortedDisciplinas.map((disciplina) => (
@@ -45,7 +46,10 @@ export default function Upload() {
         );
     }, []);
 
-    const handleFormSubmit = async (event) => {
+    async function handleFormSubmit(event){
+        if(!isLoggedIn){
+            setFileError("Not logged in");
+        }
         event.preventDefault();
         const form = event.target;
 

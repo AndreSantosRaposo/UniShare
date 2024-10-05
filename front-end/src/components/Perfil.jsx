@@ -14,7 +14,7 @@ export default function Perfil() {
     const [publishedFiles, setPublishedFiles] = useState([]); // State to store published files
     const urlParams = new URLSearchParams(window.location.search);
     const currentPage = Number(urlParams.get('page')) || 1;
-
+    
     useEffect(() => {
         const fetchCadeiras = async () => {
             const data = await getDisciplinasComInfo(currentPage);
@@ -76,6 +76,13 @@ export default function Perfil() {
         <p>Nenhum ficheiro publicado encontrado.</p>
     );
 
+    function handleLogOut(){
+        console.log("ahhh");
+        localStorage.removeItem('token');
+        navigate('/auth/login');
+    }
+
+
     return (
         <main>
             <section className="mt-3">
@@ -85,7 +92,7 @@ export default function Perfil() {
                     <p className="list-group-item">Username: {userData.username}</p>
                     <p className="list-group-item">Email: {userData.email}</p>
                 </ul>
-                <button className="btn btn-secondary">Log out</button>
+                <button className="btn btn-secondary" onClick={handleLogOut}>Log out</button>
             </section>
             <div className="btn-group mt-5" role="group" aria-label="Basic radio toggle button group">
                 <input
