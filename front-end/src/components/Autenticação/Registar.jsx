@@ -25,7 +25,7 @@ export default function Registar(){
     return (
         <>
             <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-custom">
-                <form className="needs-validation" noValidate method="POST" action="http://localhost:3000/api/v1/auth/register">
+                <form className="needs-validation" noValidate method="POST" action="https://unishare-7vk2.onrender.com/auth/register">
                     <div className="login-box p-5">
                         <h1 className="mb-4 text-center h3">Cria a tua conta</h1>
                         <div className="d-flex justify-content-between">

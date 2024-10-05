@@ -17,7 +17,7 @@ export default function MaterialFiles() {
   useEffect(() => {
     // Function to fetch data from the API
     const fetchFilesData = async () => {
-      const response = await fetch(`http://localhost:3000/api/v1/files/view?cadeiraId=${cadeiraId}&category=${category}&page=${currentPage}&sortOrder=${currentSortOrder}`);
+      const response = await fetch(`https://unishare-7vk2.onrender.com/files/view?cadeiraId=${cadeiraId}&category=${category}&page=${currentPage}&sortOrder=${currentSortOrder}`);
       const data = await response.json();
       setFilesData(data);
     };

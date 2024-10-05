@@ -16,8 +16,8 @@ const port = process.env.PORT || 3000;
 
 //Cors
 app.use(cors({
-    origin: 'http://localhost:5173',  // Replace with your frontend origin
-    methods: ['GET', 'POST',"PUT"],  // Specify allowed methods
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',  // Define FRONTEND_URL no Render
+    methods: ['GET', 'POST', 'PUT'],
     credentials: true
 }));
 
@@ -34,14 +34,10 @@ app.use('/api/v1/users',usersRouter);
 app.use(errorHandlerMiddleware);
 
 async function start(){
-    try{
-        await connectDb(process.env.MONGO_URI);
-        app.listen(3000,()=>{
-            console.log(`Server listening to port ${port}`);
-        })
-    }catch(err){
-        console.log(err);
-    }
+    await connectDb(process.env.MONGO_URI);
+    app.listen(port,()=>{
+        console.log(`Server listening to port ${port}`);
+    })
 }
 
 start()

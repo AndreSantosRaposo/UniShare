@@ -30,7 +30,7 @@ export default function Perfil() {
     useEffect(() => {
         async function fetchPublishedFiles(){
             const token = localStorage.getItem('token');
-            const response = await fetch("http://localhost:3000/api/v1/files/postedFiles",{
+            const response = await fetch("https://unishare-7vk2.onrender.com/files/postedFiles",{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },

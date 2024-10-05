@@ -5,7 +5,7 @@ export default async function getFavourite(){
         console.error("No token found. Please log in.");
         return;
     }
-    const res = await fetch("http://localhost:3000/api/v1/users/getFavourite",{
+    const res = await fetch("https://unishare-7vk2.onrender.com/users/getFavourite",{
         headers: {
             'Authorization': `Bearer ${token}`
         },

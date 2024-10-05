@@ -1,6 +1,6 @@
 export default async function getUserInformation(){
     const token = localStorage.getItem('token');
-    const res= await fetch("http://localhost:3000/api/v1/users/getInfo",{
+    const res= await fetch("https://unishare-7vk2.onrender.com/users/getInfo",{
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`

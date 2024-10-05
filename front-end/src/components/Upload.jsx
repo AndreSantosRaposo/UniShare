@@ -69,7 +69,7 @@ export default function Upload() {
 
         // Sending the data along with the file as a FormData object to maintain the ability to send files
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/api/v1/files/upload', {
+        const response = await fetch('https://unishare-7vk2.onrender.com/files/upload', {
             method: 'POST',
             body: formData, // Send FormData directly
             headers: {

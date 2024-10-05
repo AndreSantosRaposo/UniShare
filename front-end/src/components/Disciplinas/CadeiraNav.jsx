@@ -13,7 +13,7 @@ export default function DisciplinaList() {
 
     useEffect(() => {
         async function getDisciplinas() {
-            const res = await fetch("http://localhost:3000/api/v1/cadeiras/buscar");
+            const res = await fetch("https://unishare-7vk2.onrender.com/cadeiras/buscar");
             const data = await res.json();
             setDisciplinas(data.Cadeiras);
         }

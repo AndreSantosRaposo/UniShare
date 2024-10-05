@@ -12,7 +12,7 @@ export default function CardMaterial({ name, description, createdDate, id }) {
     // Function to handle file preview
     const handlePreview = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/files/view/${id}`);
+            const response = await fetch(`https://unishare-7vk2.onrender.com/files/view/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch preview');
             }

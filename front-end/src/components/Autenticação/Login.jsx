@@ -26,7 +26,7 @@ export default function Login() {
             password: formData.get('password')
         };
         try {
-            const response = await fetch('http://localhost:3000/api/v1/auth/login', {
+            const response = await fetch('https://unishare-7vk2.onrender.com/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ export default function DisciplinaMaterial() {
         }
 
         if (favourites.includes(subjectId)) {  // If already in favourites, remove it
-                const response = await fetch('http://localhost:3000/api/v1/users/removeFavourite', {
+                const response = await fetch('https://unishare-7vk2.onrender.com/users/removeFavourite', {
                     method: "PUT",
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export default function DisciplinaMaterial() {
                 setFavourites(prevFavourites => prevFavourites.filter(id => id !== subjectId));
         } else {  // If not in favourites, add it
             try {
-                const response = await fetch('http://localhost:3000/api/v1/users/addFavourite', {
+                const response = await fetch('https://unishare-7vk2.onrender.com/users/addFavourite', {
                     method: "PUT",
                     headers: {
                         'Content-Type': 'application/json',
