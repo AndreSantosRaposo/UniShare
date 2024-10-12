@@ -21,6 +21,7 @@ import CategoryNav from './components/Disciplinas/CategoryNav'
 import Upload from './components/Upload'
 import MaterialNav from './components/Disciplinas/MaterialNav'
 import Profile from './components/Perfil'
+import Info from './components/Info'
 
 //Loaders
 import getTodasDisciplinas from './loaders/getDisciplinasNomes'
@@ -58,6 +59,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         </Route>
       <Route path="upload" element={<Upload/>} loader={getTodasDisciplinas}/>
       <Route path="/profile" element={<Profile/>} loader={getfavouritesInfo}/>
+      <Route path="/information" element={<Info/>}/>
     </Route>
   </Route>
 ))

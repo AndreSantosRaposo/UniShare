@@ -38,14 +38,14 @@ export default function Login() {
                 const result = await response.json();
                 const token = result.token;
                 localStorage.setItem('token', token);
-                window.location.href = 'http://localhost:5173/';
+                window.location.href = '../';
             } else {
                 const result = await response.json();
-                setErrorMessage(result.message || 'Invalid credentials');
+                setErrorMessage(result.message || 'Credenciais erradas');
             }
         } catch (error) {
             console.log(error);
-            setErrorMessage('Something went wrong, please try again later.');
+            setErrorMessage('Ocoreu um erro, tente novamente mais tarde.');
         }
     };
 

@@ -31,7 +31,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
-            <h1>Adicionar mais alguma cena aqui (ns o que)</h1>
+            <p className="mt-5">Se é a sua primeira vez visite a página de informações para descobrir como utilizar a plataforma.</p>
         </main>
     );
   }

@@ -40,10 +40,10 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul className="navbar-nav mb-lg-0 fs-5">
-                        <li className="nav-item"><Link className="nav-link" to="/cadeiras">Disciplinas</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to={isLoggedIn ? "/cadeiras" : "/auth/login"}>Disciplinas</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="/upload">Upload</Link></li>
                         <li className="nav-item"><Link className="nav-link" to={isLoggedIn ? "/profile" : "/auth/login"}>Perfil</Link></li>
-                        <li className="nav-item"><Link className="nav-link" to="#">Contactos</Link></li>
+                        <li className="nav-item"><Link className="nav-link" to="/information">Informação</Link></li>
                         {isLoggedIn ? (
                             <li className="nav-item d-lg-none d-flex justify-content-center"><button className='nav-link' onClick={handleLogOut}>Log Out</button></li>
                         ) : (
